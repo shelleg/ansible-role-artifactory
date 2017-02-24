@@ -1,14 +1,24 @@
 ---
 # tasks file for artifactory-ansible-role
 
+- include: purge.yml
+  when: purge is defined
+
 - include: validate-java.yml
 - include: verify-installation.yml
 - include: install-{{ artifactory_flavor }}.yml
+- include: license.yml
+  when: artifactory_lisence is defined
+  
+- pause:
+    seconds: 15
 
-#- include: configure-{{ artifactory_database_engine }}.yml
+- include: "{{ artifactory_database_engine }}.yml"
+  when: artifactory_database_engine is defined
 
 - name: Resigter Artifactory-{{ artifactory_flavor }}
-  service: name=artifactory state=started
-
-
+  service: 
+    name: artifactory 
+    state: started
+    enabled: true
 

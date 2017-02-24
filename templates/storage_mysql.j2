@@ -1,8 +1,8 @@
 type=mysql
 driver=com.mysql.jdbc.Driver
-url=jdbc:mysql://rdci.c1tyrsglic7l.eu-central-1.rds.amazonaws.com:3306/artdb?characterEncoding=UTF-8&elideSetAutoCommits=true
-username={{artifactory_username}}
-password={{artifactory_password}}
+url=jdbc:mysql://{{ artifactory.db_hostname}}:3306/{{ artifactory.db_name }}?characterEncoding=UTF-8&elideSetAutoCommits=true
+username={{ artifactory.db_user }}
+password={{ artifactory.db_pass }}
 
 ## Determines where the actual artifacts binaries are stored. Available options:
 ## filesystem - binaries are stored in the filesystem (recommended, default)

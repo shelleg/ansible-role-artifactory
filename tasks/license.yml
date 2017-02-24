@@ -1,0 +1,8 @@
+---
+
+- copy: 
+    content: "{{ artifactory_lisence }}" 
+    dest: "{{ artifactory_conf_dir }}/artifactory.lic"
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    mode: 0744

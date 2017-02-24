@@ -1,0 +1,15 @@
+---
+
+- service:
+    name: artifactory
+    state: stopped
+  ignore_errors: true
+
+- package:
+    name: jfrog-artifactory-pro
+    state: absent
+
+- file:
+    state: absent
+    path: "{{ artifactory_home }}" 
+

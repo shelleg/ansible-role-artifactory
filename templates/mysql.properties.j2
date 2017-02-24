@@ -20,6 +20,6 @@
 
 type=mysql
 driver=com.mysql.jdbc.Driver
-url=jdbc:mysql://{{ artifactory_db_host }}:{{ artifactory_db_port }}/artdb?characterEncoding={{ artifactory_database_encoding}} &elideSetAutoCommits=true
-username={{ artifactory_db_username }}
-password={{ artifactory_db_password }}
+url=jdbc:mysql://{{ artifactory.db_host }}:{{ artifactory.db_port }}/artdb?characterEncoding={{ artifactory.db_encoding}} &elideSetAutoCommits=true
+username={{ artifactory.db_user }}
+password={{ artifactory.db_pass }}
