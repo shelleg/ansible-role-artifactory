@@ -1,0 +1,26 @@
+---
+
+- name: 'make sure mysql python libs are installed'
+  yum: name=MySQL-python state=installed
+  when: ansible_os_family == "RedHat"
+
+- name: "verify presence of jdbc connector for mysql"
+  stat: path={{artifactory_home}}/tomcat/lib/{{artifactory_mysql_jdbc_base}}-bin.jar
+  register: jdbc_installed
+
+- name: "download jdbc connector for mysql"
+  get_url: url={{artifactory_mysql_jdbc_url}} dest=/tmp
+  retries: 3
+
+- name: "untar jdbc connector for mysql"
+  shell: tar zxvf /tmp/{{artifactory_mysql_jdbc_base}}.tar.gz -C /tmp/
+  retries: 3
+
+- name: "Copy jdbc to {{artifactory_home}}/tomcat/lib/{{artifactory_mysql_jdbc_base}}-bin.jar"
+  copy:
+    remote_src=True
+    src=/tmp/{{artifactory_mysql_jdbc_base}}/{{artifactory_mysql_jdbc_base}}-bin.jar
+    dest={{ artifactory_home }}/tomcat/lib/{{artifactory_mysql_jdbc_base}}-bin.jar
+
+- name: 'enable mysql driver'
+  template: src=mysql.properties.j2 dest={{artifactory_home}}/misc/db/mysql.properties owner=root group=root mode=0644

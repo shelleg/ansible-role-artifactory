@@ -1,0 +1,22 @@
+---
+
+- name: Ensure nginx is installed.
+  sudo: yes
+  yum: pkg=nginx enablerepo=epel state=installed
+
+  # Set (httpd_can_network_connect) flag on and keep it persistent across reboots
+- seboolean: name=httpd_can_network_connect state=yes persistent=yes
+
+- copy: src="{{ item }}" dest=/etc/ssl/certs owner=root group=root mode=0755
+  with_items:
+    - awsrdartifactory.key
+    - awsrdartifactory.cer
+
+  
+- name: artifactory-nginx | Compile Nginx configuration
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/artifactory.conf
+  notify:
+  - nginx reload
+  
+- name: Ensure nginx is started and enabled to start at boot.
+  service: name=nginx state=started enabled=yes

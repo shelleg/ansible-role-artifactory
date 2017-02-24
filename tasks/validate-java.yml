@@ -1,0 +1,13 @@
+---
+# tasks file for artifactory-ansible-role
+
+- name: 'verify java -version'
+  action: shell /usr/bin/java -version
+  register: java
+  changed_when: no
+  tags:
+    - verify
+
+- assert:
+    that:
+      - "'version' in java.stderr"

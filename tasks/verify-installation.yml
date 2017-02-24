@@ -1,0 +1,10 @@
+- name: install prerequesites
+  command: yum install -y openssl
+  when: ansible_os_family == "RedHat"
+
+- name: 'create user to run artifactory'
+  user: name="{{artifactory_user}}" home=/opt/artifactory/ shell=/bin/bash system=true
+
+- name: 'verify presence of artifactory'
+  stat: path="/opt/artifactory/artifactory-{{artifactory_version}}/webapps/artifactory.war"
+  register: artifactory_exists
