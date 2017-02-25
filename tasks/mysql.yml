@@ -1,15 +1,15 @@
-
+---
 - name: "make sure mysql is installed"
   yum: 
     name: MySQL-python 
     state: installed
-  when: ansible_os_family == "RedHat"
   register: installed
   retries: 3
+  when: ansible_os_family == "RedHat"
 
 - name: "verify presence of jdbc connector for mysql"
   stat: 
-    path: "{{ artifactory_home }}/tomcat/lib/{{ artifactory_mysql_jdbc_base }}-bin.jar"
+    path: "{{ artifactory_runtime_dir }}/tomcat/lib/{{ artifactory_mysql_jdbc_base }}-bin.jar"
   register: jdbc_installed
 
 - name: "download jdbc connector for mysql"
@@ -23,7 +23,7 @@
   command: "tar xfvz /tmp/{{ artifactory_mysql_jdbc_base }}.tar.gz -C /tmp"
 
 - name: "enable jdbc connector for mysql"
-  command: "mv /tmp/{{ artifactory_mysql_jdbc_base }}/{{ artifactory_mysql_jdbc_base }}-bin.jar {{ artifactory_home }}/tomcat/lib"
+  command: "mv /tmp/{{ artifactory_mysql_jdbc_base }}/{{ artifactory_mysql_jdbc_base }}-bin.jar {{ artifactory_runtime_dir }}/tomcat/lib"
 
 - name: 'create artifactory database in mysql'
   mysql_db: 
@@ -49,7 +49,7 @@
 - name: "create etc directory"
   file:
     state: directory
-    path: "{{ artifactory_home }}/etc/"
+    path: "{{ artifactory_runtime_dir }}/etc/"
     mode: 0755
     owner: "{{ artifactory_user }}"
     group: "{{ artifactory_group }}" 

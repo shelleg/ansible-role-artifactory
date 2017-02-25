@@ -11,5 +11,5 @@
 
 - file:
     state: absent
-    path: "{{ artifactory_home }}" 
+    path: "{{ artifactory_runtime_dir }}"
 

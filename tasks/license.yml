@@ -1,6 +1,6 @@
 ---
-
-- copy: 
+- name: "Insert Artifactory Lisence variable into -> {{ artifactory_conf_dir }}/artifactory.lic"
+  copy:
     content: "{{ artifactory_lisence }}" 
     dest: "{{ artifactory_conf_dir }}/artifactory.lic"
     owner: "{{ artifactory_user }}"

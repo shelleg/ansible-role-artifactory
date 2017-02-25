@@ -1,24 +1,26 @@
 ---
 # tasks file for artifactory-ansible-role
 
-- include: purge.yml
+- include: "purge.yml"
   when: purge is defined
 
-- include: validate-java.yml
-- include: verify-installation.yml
-- include: install-{{ artifactory_flavor }}.yml
-- include: license.yml
+- include: "validate-java.yml"
+- include: "verify-installation.yml"
+- include: "install-{{ artifactory_flavor }}.yml"
+- include: "license.yml"
   when: artifactory_lisence is defined
-  
-- pause:
-    seconds: 15
 
-- include: "{{ artifactory_database_engine }}.yml"
-  when: artifactory_database_engine is defined
+- include: "mysql.yml"
+  when: artifactory_database_engine == mysql or artifactory_database_engine == mariadb
 
-- name: Resigter Artifactory-{{ artifactory_flavor }}
+- name: "Resigter Artifactory-{{ artifactory_flavor }}"
   service: 
     name: artifactory 
     state: started
     enabled: true
 
+- name: "Wait for artifactory port to come up"
+  wait_for:
+    port: 8081
+    timeout: 60
+    host: 0.0.0.0

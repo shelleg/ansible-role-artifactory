@@ -1,2 +1,17 @@
 ---
 # handlers file for artifactory-ansible-role
+
+- name: "service artifactory restart"
+  service:
+    name: artifactory
+    state: restarted
+
+- name: "service artifactory start"
+  service:
+    name: artifactory
+    state: started
+
+- name: "service artifactory stop"
+  service:
+    name: artifactory
+    state: stopped

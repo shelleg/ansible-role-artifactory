@@ -4,9 +4,6 @@
 - src: https://github.com/shelleg/ansible-role-oracle-java.git
   name: java
 
-- src: https://github.com/shelleg/ansible-role-dbmanage.git
-  name: dbmanage
-
 ### REFERENCE ###
 ##  DO NOT REOMVE - use as reference ...
  # from galaxy
