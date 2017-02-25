@@ -25,3 +25,23 @@ artifactory_db_host: 127.0.0.1
 artifactory_db_port: 3306
 
 artifactory_database_encoding: utf8
+
+# nginx related
+artifactory_reverse_proxy: true
+artifactory_http_port: 8081
+artifactory_https_port: 443
+artifactory_proxy_port: 80
+artifactory_host_name: "{{ inventory_hostname }}"
+artifactory_max_artifact_size: '5120M'
+
+# ssl related
+artifactory_ssl: false
+ssl_key:  files/artifctory.cert
+ssl_cert: files/artifctory.key
+# files should be there during deployment ...
+artifactory_ssl_cert_dir: /etc/ssl/certs/
+artifactory_ssl_cert_filename: "{{ inventory_hostname }}.cert"
+artifactory_ssl_key_filename:  "{{ inventory_hostname }}.key"
+
+artifactory_docker_enabled: false
+artifactory_docker_listen_port: '8008'

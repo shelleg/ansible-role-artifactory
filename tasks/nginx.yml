@@ -1,5 +1,4 @@
 ---
-
 - name: "Install nginx"
   sudo: yes
   yum:
@@ -13,26 +12,49 @@
     state: yes
     persistent: yes
 
-- copy:
+- name: Check ssl|cert existence"
+  stat:
+    path: "{{ item }}"
+  when: artifactory_ssl
+
+- name: "Check ssl key"
+  stat:
+    path: "{{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_key_filename }}"
+  register: key
+  when: artifactory_ssl
+
+- name: "Check ssl cert"
+  stat:
+    path: "{{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_cert_filename }}"
+  register: cert
+  when: artifactory_ssl
+
+- name: "Copy certificated into /etc/ssl/certs"
+  copy:
     src: "{{ item }}"
     dest: /etc/ssl/certs
     owner: root
     group: root
     mode: 0755
   with_items:
-    - awsrdartifactory.key
-    - awsrdartifactory.cer
+    - "{{ ssl_cert }}"
+    - "{{ ssl_key }}"
+  when: ((artifactory_ssl) and (not key.exists or not cert.exists))
 
-  
 - name: "artifactory-nginx | Compile Nginx configuration"
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/conf.d/artifactory.conf
-  notify:
-  - nginx reload
-  
-- name: Ensure nginx is started and enabled to start at boot.
+  when: not artifactory_ssl
+
+- name: "artifactory-nginx | Compile Nginx configuration"
+  template:
+    src: nginx-ssl.conf.j2
+    dest: /etc/nginx/conf.d/artifactory.conf
+  when: artifactory_ssl
+
+- name: "start & enable service"
   service:
     name: nginx
-    state: started
+    state: restarted
     enabled: yes

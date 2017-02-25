@@ -13,6 +13,9 @@
 - include: "mysql.yml"
   when: artifactory_database_engine == mysql or artifactory_database_engine == mariadb
 
+- include: "nginx.xml"
+  when: artifactory_reverse_proxy
+
 - name: "Resigter Artifactory-{{ artifactory_flavor }}"
   service: 
     name: artifactory 
