@@ -1,19 +1,23 @@
 ---
 # tasks file for artifactory-ansible-role
 
+- name: "nclude Debain / Redhat OS vars"
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - include: "purge.yml"
   when: purge is defined
 
 - include: "validate-java.yml"
 - include: "verify-installation.yml"
+- include: "install-reqs.yml"
 - include: "install-{{ artifactory_flavor }}.yml"
 - include: "license.yml"
   when: artifactory_lisence is defined
 
 - include: "mysql.yml"
-  when: artifactory_database_engine == mysql or artifactory_database_engine == mariadb
+  when: (artifactory_create_db) and (artifactory_database_engine == 'mysql' or artifactory_database_engine == 'mariadb')
 
-- include: "nginx.xml"
+- include: "nginx.yml"
   when: artifactory_reverse_proxy
 
 - name: "Resigter Artifactory-{{ artifactory_flavor }}"

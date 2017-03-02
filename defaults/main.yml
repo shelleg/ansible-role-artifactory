@@ -16,15 +16,18 @@ artifactory_repo_file: "bintray-jfrog-artifactory-pro-rpms.repo"
 artifactory_database_engine: mariadb
 #artifactory_database_engine: mysql
 
-artifactory_mysql_jdbc_base: "mysql-connector-java-5.1.34"
-artifactory_mysql_jdbc_url: "http://dev.mysql.com/get/Downloads/Connector-J/{{artifactory_mysql_jdbc_base}}.tar.gz"
-
-artifactory_db_username: root
-artifactory_db_password: root
+artifactory_mysql_jdbc_base: "mysql-connector-java-5.1.41"
+artifactory_mysql_jdbc_url: "https://dev.mysql.com/get/Downloads/Connector-J/{{artifactory_mysql_jdbc_base}}.tar.gz"
+#                            "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.tar.gz"
+artifactory_create_db: true
+artifactory_db_root_user: "{{ db_root_user | d('root') }}"
+artifactory_db_root_pass: "{{ db_root_pass | d('Changem3') }}"
+artifactory_db_name: arti
+artifactory_db_user: arti
+artifactory_db_pass: arti
 artifactory_db_host: 127.0.0.1
 artifactory_db_port: 3306
-
-artifactory_database_encoding: utf8
+artifactory_db_encoding: utf8
 
 # nginx related
 artifactory_reverse_proxy: true
@@ -45,3 +48,6 @@ artifactory_ssl_key_filename:  "{{ inventory_hostname }}.key"
 
 artifactory_docker_enabled: false
 artifactory_docker_listen_port: '8008'
+
+artifactory_pip_requirements:
+  - libsemanage-python

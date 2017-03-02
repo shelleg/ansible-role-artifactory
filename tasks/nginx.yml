@@ -1,9 +1,7 @@
 ---
 - name: "Install nginx"
-  sudo: yes
-  yum:
-    pkg: nginx
-    enablerepo: epel
+  package:
+    name: nginx
     state: installed
 
   # Set (httpd_can_network_connect) flag on and keep it persistent across reboots

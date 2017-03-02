@@ -1,0 +1,22 @@
+---
+
+- name: "Install prereqs"
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ artifactory_system_reqs }}"
+  when: artifactory_system_reqs is defined
+
+- name: "Upgrade pip"
+  pip:
+    name: pip
+    extra_args: "--upgrade"
+
+- name: "Install pip prereqs"
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ artifactory_pip_requirements }}"
+
