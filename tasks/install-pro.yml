@@ -10,7 +10,7 @@
 
 - name: "Download artifactory yum repo file"
   get_url:
-    url: "{{ artifactory_repo_url_pro }}"
+    url: "{{ artifactory_yum_repo_url_pro }}"
     dest: "/etc/yum.repos.d/{{ artifactory_repo_file }}"
   retries: 3
   when: ansible_os_family == "RedHat"

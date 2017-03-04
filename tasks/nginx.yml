@@ -10,7 +10,7 @@
     state: yes
     persistent: yes
 
-- name: Check ssl|cert existence"
+- name: "Check ssl|cert existence"
   stat:
     path: "{{ item }}"
   when: artifactory_ssl
@@ -39,17 +39,15 @@
     - "{{ ssl_key }}"
   when: ((artifactory_ssl) and (not key.exists or not cert.exists))
 
-- name: "artifactory-nginx | Compile Nginx configuration"
+- name: "nginx | Artifactory vhost configuration"
   template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/conf.d/artifactory.conf
-  when: not artifactory_ssl
+    src: "artifactory-nginx.conf.j2"
+    dest: "/etc/nginx/conf.d/default.conf"
 
-- name: "artifactory-nginx | Compile Nginx configuration"
+- name: "nginx | global configuration"
   template:
-    src: nginx-ssl.conf.j2
-    dest: /etc/nginx/conf.d/artifactory.conf
-  when: artifactory_ssl
+    src: "nginx.conf.j2"
+    dest: "/etc/nginx/nginx.conf"
 
 - name: "start & enable service"
   service:

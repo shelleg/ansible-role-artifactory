@@ -3,3 +3,5 @@ artifactory_system_reqs:
   - unzip
   - zip
   - python-pip
+  - policycoreutils-python
+#  - setools-libs-python

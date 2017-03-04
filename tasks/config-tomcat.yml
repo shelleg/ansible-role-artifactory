@@ -1,0 +1,10 @@
+---
+- name: "enable mysql driver"
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ artifactory_tomcat_dir }}/conf/{{ item }}"
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    mode: 0644
+  with_items:
+    - server.xml

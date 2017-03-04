@@ -1,8 +1,11 @@
 ---
 # tasks file for artifactory-ansible-role
 
-- name: "nclude Debain / Redhat OS vars"
+- name: "include Debain / Redhat OS vars"
   include_vars: "{{ ansible_os_family }}.yml"
+
+- name: "include flavor-specific vars"
+  include_vars: "{{ artifactory_flavor }}.yml"
 
 - include: "purge.yml"
   when: purge is defined
@@ -11,6 +14,8 @@
 - include: "verify-installation.yml"
 - include: "install-reqs.yml"
 - include: "install-{{ artifactory_flavor }}.yml"
+- include: "config-tomcat.yml"
+
 - include: "license.yml"
   when: artifactory_lisence is defined
 
