@@ -2,8 +2,8 @@
 # Do NOT modify this file by hand!
 {% if artifactory_ssl %}
 ## add ssl entries when https has been set in config
-ssl_certificate      /etc/ssl/certs/cert.cer;
-ssl_certificate_key  /etc/ssl/private/key.key;
+ssl_certificate      "{{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_cert }}";
+ssl_certificate_key  "{{ artifactory_ssl_key_dir }}/{{ artifactory_ssl_key }}";
 ssl_session_cache shared:SSL:1m;
 ssl_prefer_server_ciphers   on;
 {% endif %}

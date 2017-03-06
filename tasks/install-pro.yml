@@ -20,11 +20,11 @@
 - name: "Install artifactory deb package"
   apt: 
     name: "jfrog-artifactory-pro={{ artifactory_version }}" 
-    state: latest
+    state: installed
   when: ansible_os_family == "Debian"
 
 - name: "Install artifactory rpm package"
   yum: 
     name: "jfrog-artifactory-pro-{{ artifactory_version }}" 
-    state: latest
+    state: installed
   when: ansible_os_family == "RedHat"

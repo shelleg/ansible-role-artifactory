@@ -12,14 +12,14 @@
     path: "{{ artifactory_runtime_dir }}/tomcat/lib/{{ artifactory_mysql_jdbc_base }}-bin.jar"
   register: jdbc_installed
 
-- debug: var=jdbc_installed
-
-- get_url:
+- name: "Donwload mysql jdbc jar"
+  get_url:
     url: "{{ artifactory_mysql_jdbc_url }}"
     dest: /tmp
     owner: "{{ artifactory_user }}"
     group: "{{ artifactory_group }}"
     mode: 0755
+  when: not jdbc_installed.stat.exists
 
 - unarchive:
     src: "/tmp/{{ artifactory_mysql_jdbc_base }}.tar.gz"
@@ -28,24 +28,7 @@
     group: "{{ artifactory_group }}"
     mode: 0755
     remote_src: True
-
-#- unarchive:
-#    src: "{{ artifactory_mysql_jdbc_url }}"
-#    dest: /tmp/
-#    owner: "{{ artifactory_user }}"
-#    group: "{{ artifactory_group }}"
-#    validate_certs: no
-#    remote_src: True
-
-#- name: "download jdbc connector for mysql"
-#  get_url:
-#    url: "{{ artifactory_mysql_jdbc_url }}"
-#    dest: /tmp
-#  retries: 3
-#  when: features.mysql and not ant_installed.stat.exists
-
-#- name: "untar jdbc connector for mysql"
-#  command: "tar xfvz /tmp/{{ artifactory_mysql_jdbc_base }}.tar.gz -C /tmp"
+  when: not jdbc_installed.stat.exists
 
 - name: "enable jdbc connector for mysql"
   copy:
@@ -55,6 +38,7 @@
     group: "{{ artifactory_group }}"
     mode: 0755
     remote_src: True
+  when: not jdbc_installed.stat.exists
 
 - name: "create artifactory database"
   mysql_db:

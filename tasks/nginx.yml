@@ -4,40 +4,40 @@
     name: nginx
     state: installed
 
+- name: "create private key directory"
+  file:
+    state: directory
+    path: "{{ artifactory_ssl_key_dir }}"
+    mode: 0700
+
   # Set (httpd_can_network_connect) flag on and keep it persistent across reboots
 - seboolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes
 
-- name: "Check ssl|cert existence"
-  stat:
-    path: "{{ item }}"
-  when: artifactory_ssl
-
 - name: "Check ssl key"
   stat:
-    path: "{{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_key_filename }}"
+    path: "{{ artifactory_ssl_key_dir }}/{{ artifactory_ssl_key }}"
   register: key
   when: artifactory_ssl
 
 - name: "Check ssl cert"
   stat:
-    path: "{{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_cert_filename }}"
+    path: "{{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_cert }}"
   register: cert
   when: artifactory_ssl
 
-- name: "Copy certificated into /etc/ssl/certs"
-  copy:
-    src: "{{ item }}"
-    dest: /etc/ssl/certs
-    owner: root
-    group: root
-    mode: 0755
-  with_items:
-    - "{{ ssl_cert }}"
-    - "{{ ssl_key }}"
-  when: ((artifactory_ssl) and (not key.exists or not cert.exists))
+- name: "Creating self-signed server SSL cert"
+  shell: "openssl req -new \
+      -x509 \
+      -nodes \
+      -extensions v3_ca \
+      -days {{ artifactory_ssl_expiary }} \
+      -subj \"/C={{ artifactory_ssl_country }}/ST={{ artifactory_ssl_state }}/L={{ artifactory_ssl_location }}/O={{ artifactory_ssl_org }}/OU={{ artifactory_ssl_org }}/CN={{ inventory_hostname }}\" \
+      -keyout {{ artifactory_ssl_key_dir }}/{{ artifactory_ssl_key }} \
+      -out {{ artifactory_ssl_cert_dir }}/{{ artifactory_ssl_cert }}"
+  when: ((artifactory_ssl) and (not key.stat.exists or not cert.stat.exists))
 
 - name: "nginx | Artifactory vhost configuration"
   template:

@@ -41,12 +41,21 @@ artifactory_max_artifact_size: '5120M'
 
 # ssl related
 artifactory_ssl: false
-ssl_key:  files/artifctory.cert
-ssl_cert: files/artifctory.key
+artifactory_ssl_key:  artifactory.key # see files/...
+artifactory_ssl_cert: artifactory.crt # see files/...
 # files should be there during deployment ...
 artifactory_ssl_cert_dir: /etc/ssl/certs/
-artifactory_ssl_cert_filename: "{{ inventory_hostname }}.cert"
-artifactory_ssl_key_filename:  "{{ inventory_hostname }}.key"
+artifactory_ssl_key_dir: /etc/ssl/private/
+#artifactory_ssl_cert_filename: "{{ inventory_hostname }}.crt"
+#artifactory_ssl_key_filename:  "{{ inventory_hostname }}.key"
+artifactory_ssl_country: IL
+artifactory_ssl_state: Israel
+artifactory_ssl_org: DevOps
+artifactory_ssl_location: Tel-Aviv
+artifactory_ssl_expiary: 3650
+
+
+
 
 artifactory_docker_enabled: false
 artifactory_docker_listen_port: '8008'
