@@ -1,0 +1,31 @@
+---
+
+- name: "Create || Validate custom filesotre dir exists"
+  file:
+    state: directory
+    path: "{{ item }}"  
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    mode: 0644
+  with_items:
+    - "{{ artifactory_custom_filestore_dir }}"
+    - "{{ artifactory_custom_filestore_dir }}/temp"
+  when: artifactory_custom_filestore_dir is defined 
+
+- name: "enable mysql driver"
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ artifactory_conf_dir }}/{{ item }}"
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    mode: 0644
+  with_items:
+    -  binarystore.xml 
+  when: not(
+          ( artifactory_custom_filestore_dir is undefined)
+        or
+          ( artifactory_custom_filestore_dir is none)
+        or
+          ( artifactory_custom_filestore_dir |trim == '')
+           )
+

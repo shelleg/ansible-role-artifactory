@@ -61,3 +61,5 @@ artifactory_docker_enabled: false
 artifactory_docker_listen_port: '8008'
 
 artifactory_pip_requirements: []
+
+#artifactory_custom_filestore_dir: 

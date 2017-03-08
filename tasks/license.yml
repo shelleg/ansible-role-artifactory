@@ -8,8 +8,8 @@
     mode: 0744
   register: lic
 
-- name: "Restart on License change"
-  service:
-    name: artifactory
-    state: restarted
-  when: lic.changed
+#- name: "Restart on License change"
+#  service:
+#    name: artifactory
+#    state: restarted
+#  when: lic.changed

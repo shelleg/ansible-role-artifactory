@@ -1,0 +1,26 @@
+---
+
+- name: "set fact db_state to absent in order to drop the database if it exists"
+  set_fact: 
+    db_state: absent
+
+- name: "create artifactory database"
+  mysql_db:
+    name: "{{ artifactory_db_name  }}"
+    login_host: "{{ artifactory_db_host }}"
+    login_user: "{{ artifactory_db_root_user }}"
+    login_password: "{{ artifactory_db_root_pass }}"
+    encoding: "{{ artifactory_db_encoding }}"
+    state: absent
+
+- name: 'create artifactory database'
+  mysql_user:
+    host: "{{ artifactory_db_host }}"
+    login_host: "{{ artifactory_db_host }}"
+    login_user: "{{ artifactory_db_root_user }}"
+    login_password: "{{ artifactory_db_root_pass }}"
+    name: "{{ artifactory_db_name  }}"
+    password: "{{ artifactory_db_pass }}"
+    priv: "{{ artifactory_db_name }}.*:ALL"
+    host: "%"
+    state: absent

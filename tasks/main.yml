@@ -10,11 +10,20 @@
 - include: "purge.yml"
   when: purge is defined
 
+- include: "purge-db.yml"
+  when: purge_db is defined
+
 - include: "validate-java.yml"
 - include: "verify-installation.yml"
 - include: "install-reqs.yml"
 - include: "install-{{ artifactory_flavor }}.yml"
 - include: "config-tomcat.yml"
+- include: "config-filestore.yml"
+  when: not(
+           ( artifactory_custom_filestore_dir is undefined)
+        or ( artifactory_custom_filestore_dir is none) 
+        or ( artifactory_custom_filestore_dir |trim == '')
+           )
 
 - include: "license.yml"
   when: artifactory_lisence is defined

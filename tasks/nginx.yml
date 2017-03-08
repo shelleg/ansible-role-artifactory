@@ -10,11 +10,27 @@
     path: "{{ artifactory_ssl_key_dir }}"
     mode: 0700
 
+- name: "Get selinux status"
+  shell: "sestatus"
+  register: sl_out
+
+- name: "Set se_enabled to true if sl_out"
+  set_fact:
+    se_enabled: true
+  when: ('"disabled" in sl_out')
+
+- name: "Set se_enabled to false if not sl_out"
+  set_fact:
+    se_enabled: false
+  when: ('"disabled" not in sl_out')
+
   # Set (httpd_can_network_connect) flag on and keep it persistent across reboots
-- seboolean:
+- name: "Tweak se-linux to allow nginx reverse proxy"
+  seboolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes
+  when: se_enabled
 
 - name: "Check ssl key"
   stat:

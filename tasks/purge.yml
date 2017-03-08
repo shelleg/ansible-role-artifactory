@@ -11,5 +11,10 @@
 
 - file:
     state: absent
-    path: "{{ artifactory_runtime_dir }}"
+    path: "{{ item }}"
+  with_items: 
+    - "{{ artifactory_runtime_dir }}"
+    - "/var/opt/jfrog/artifactory/"
+    - "/etc/opt/jfrog/artifactory/"
+         
 
