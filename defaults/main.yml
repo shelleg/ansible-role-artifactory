@@ -1,7 +1,7 @@
 ---
 # defaults file for artifactory-ansible-role
 artifactory_flavor: pro
-artifactory_version: 5.1.0
+artifactory_version: 5.2.1
 artifactory_user: artifactory
 artifactory_group: artifactory
 artifactory_runtime_dir: /opt/jfrog/artifactory/
@@ -17,7 +17,7 @@ artifactory_repo_file: "bintray-jfrog-artifactory-pro-rpms.repo"
 artifactory_database_engine: mariadb
 #artifactory_database_engine: mysql
 
-artifactory_mysql_jdbc_base: "mysql-connector-java-5.1.41"
+artifactory_mysql_jdbc_base: "mysql-connector-java-5.1.42"
 artifactory_mysql_jdbc_url: "https://dev.mysql.com/get/Downloads/Connector-J/{{artifactory_mysql_jdbc_base}}.tar.gz"
 #                            "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.tar.gz"
 artifactory_create_db: true
@@ -31,7 +31,7 @@ artifactory_db_port:      "{{ db_port | d('3306') }}"
 artifactory_db_encoding:  "{{ db_encoding | d('utf8') }}"
 
 # nginx related
-artifactory_reverse_proxy: true
+artifactory_reverse_proxy: false
 artifactory_http_port: 8081
 artifactory_ajp_port: 8019
 artifactory_https_port: 443

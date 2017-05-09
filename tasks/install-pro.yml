@@ -4,7 +4,7 @@
 
 - name: "Add artifactory to source.list"
   apt_repository: 
-    repo: 'deb https://jfrog.bintray.com/artifactory-pro-debs {distribution} {components}' 
+    repo: 'deb https://jfrog.bintray.com/artifactory-pro-debs {{ ansible_distribution_release | lower }} main'
     state: present
   when: ansible_os_family == "Debian"
 
@@ -17,14 +17,21 @@
 
 # Install the package.
 
+- name: "Add artifactory apt-key"
+  apt_key:
+    keyserver: "keyserver.ubuntu.com"
+    id: 6B219DCCD7639232
+  when: ansible_os_family == "Debian"
+
 - name: "Install artifactory deb package"
-  apt: 
-    name: "jfrog-artifactory-pro={{ artifactory_version }}" 
+  apt:
+    name: "jfrog-artifactory-pro"
+    allow_unauthenticated: yes
     state: installed
   when: ansible_os_family == "Debian"
 
 - name: "Install artifactory rpm package"
-  yum: 
-    name: "jfrog-artifactory-pro-{{ artifactory_version }}" 
+  yum:
+    name: "jfrog-artifactory-pro-{{ artifactory_version }}"
     state: installed
   when: ansible_os_family == "RedHat"

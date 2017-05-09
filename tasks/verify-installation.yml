@@ -12,7 +12,7 @@
     shell: /bin/bash
     system: true
 
-- name: 'verify presence of artifactory'
-  stat:
-    path: "/opt/artifactory/artifactory-{{ artifactory_version }}/webapps/artifactory.war"
-  register: artifactory_exists
+#- name: 'verify presence of artifactory'
+#  stat:
+#    path: "/opt/artifactory/artifactory-{{ artifactory_version }}/webapps/artifactory.war"
+#  register: artifactory_exists

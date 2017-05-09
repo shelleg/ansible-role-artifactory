@@ -26,7 +26,8 @@
            )
 
 - include: "license.yml"
-  when: artifactory_lisence is defined
+  when: (artifactory_lisence is defined) and (artifactory_flavor == 'pro')
+  tags: license
 
 - include: "mysql.yml"
   when: (artifactory_create_db) and (artifactory_database_engine == 'mysql' or artifactory_database_engine == 'mariadb')
