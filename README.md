@@ -6,7 +6,8 @@ Centos + Pro fully tested ATM + Mariadb [ Client requiest ;)]
 
 Requirements
 ------------
-mariadb / mysql - you can use with [Ansible-role-mariadb](https://github.com/shelleg/ansible-role-mariadb)
+mariadb - you can use with [Ansible-role-mariadb](https://github.com/shelleg/ansible-role-mariadb)
+mysql - you can use with `geerlingguy.mysql`
 
 
 Role Variables
@@ -15,7 +16,7 @@ Role Variables
 Artifactory basics:
 
 * artifactory_flavor: `pro`
-* artifactory_version: `5.1.0`
+* artifactory_version: `5.2.1`
 * artifactory_user: `artifactory`
 * artifactory_group: `artifactory`
 
@@ -60,7 +61,7 @@ Example Playbook
 
 Single host with mariadb + artifactory + nging http reverse proxy: 
 
-    - hosts: artifactory-allin1
+    - hosts: artifactory
       become: yes
       # vars: see -> ./group_vars/all/00_general.yml
       roles:
